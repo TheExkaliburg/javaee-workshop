@@ -2,7 +2,12 @@ package com.dedalus.animal.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Getter
@@ -14,7 +19,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "ANIMAL")
 public class AnimalEntity {
+
     @Id
+    @GeneratedValue
     private UUID uuid;
 
     private String name;

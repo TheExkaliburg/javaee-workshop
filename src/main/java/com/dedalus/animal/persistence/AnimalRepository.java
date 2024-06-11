@@ -1,17 +1,10 @@
 package com.dedalus.animal.persistence;
 
-import com.dedalus.animal.model.AnimalDetailedDto;
-import com.dedalus.animal.model.AnimalDto;
 import com.dedalus.animal.model.AnimalEntity;
-import com.dedalus.animal.model.OwnerDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,10 +23,10 @@ public class AnimalRepository {
         return em.find(AnimalEntity.class, id);
     }
 
-    public void edit(AnimalEntity entity) {
-        em.merge(entity);
+    public AnimalEntity edit(AnimalEntity entity) {
+        return em.merge(entity);
     }
-    
+
     public Optional<AnimalEntity> findByUuid(UUID uuid) {
         AnimalEntity animalEntity = em.find(AnimalEntity.class, uuid);
         return Optional.ofNullable(animalEntity);

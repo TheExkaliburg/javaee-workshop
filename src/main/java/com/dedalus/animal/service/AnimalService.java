@@ -9,10 +9,6 @@ import com.dedalus.animal.persistence.AnimalRepository;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -51,7 +47,7 @@ public class AnimalService {
                 .comment(entity.getComment())
                 .build();
     }
-    
+
     public AnimalDetailedDto findByUuid(UUID uuid) {
         AnimalEntity result = repository.findByUuid(uuid).orElseThrow(NotFoundException::new);
 
@@ -63,4 +59,31 @@ public class AnimalService {
                 .comment(result.getComment())
                 .build();
     }
+
+    public AnimalDetailedDto createOrUpdate(AnimalDetailedDto dto) {
+        AnimalEntity entity = repository.edit(mapDetail(dto));
+        return mapDetail(entity);
+    }
+
+    private AnimalDetailedDto mapDetail(AnimalEntity entity) {
+        return AnimalDetailedDto.builder()
+            .name(entity.getName())
+            .type(entity.getType())
+            .uuid(entity.getUuid())
+            .available(entity.getAvailable())
+            .comment(entity.getComment())
+            .build();
+    }
+
+    private AnimalEntity mapDetail(AnimalDetailedDto dto) {
+        return AnimalEntity.builder()
+            .uuid(dto.getUuid())
+            .name(dto.getName())
+            .available(dto.getAvailable())
+            .type(dto.getType())
+            .comment(dto.getComment())
+            .build();
+    }
+
+
 }
