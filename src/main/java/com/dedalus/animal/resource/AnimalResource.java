@@ -35,4 +35,10 @@ public class AnimalResource {
     public AnimalDetailedDto adopt(@QueryParam("animal") UUID animalId, OwnerDto owner) {
         return animalService.adopt(animalId, owner);
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public AnimalDetailedDto find(@QueryParam(value = "uuid") UUID uuid) {
+        return animalService.findByUuid(uuid);
+    }
 }

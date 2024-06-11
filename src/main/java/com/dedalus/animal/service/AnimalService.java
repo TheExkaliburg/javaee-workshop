@@ -8,6 +8,7 @@ import com.dedalus.animal.persistence.AnimalRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -48,6 +49,18 @@ public class AnimalService {
                 .uuid(entity.getUuid())
                 .owner(entity.getOwner())
                 .comment(entity.getComment())
+                .build();
+    }
+    
+    public AnimalDetailedDto findByUuid(UUID uuid) {
+        AnimalEntity result = repository.findByUuid(uuid).orElseThrow(NotFoundException::new);
+
+        return AnimalDetailedDto.builder()
+                .name(result.getName())
+                .uuid(result.getUuid())
+                .type(result.getType())
+                .available(result.getAvailable())
+                .comment(result.getComment())
                 .build();
     }
 }
