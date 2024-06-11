@@ -1,12 +1,16 @@
 package com.dedalus.animal.model;
 
-import lombok.*;
-
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -15,14 +19,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ANIMAL")
-public class AnimalEntity {
+@Table(name = "OWNER")
+public class OwnerEntity {
     @Id
     private UUID uuid;
 
     private String name;
-    private SpeciesType type;
-    private String comment;
-    private Boolean available;
-    private UUID owner;
+    private String address;
 }
