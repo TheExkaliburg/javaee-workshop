@@ -17,4 +17,5 @@ public class AnimalDetailedDto {
     private SpeciesType type;
     private String comment;
     private Boolean available;
+    private UUID owner;
 }

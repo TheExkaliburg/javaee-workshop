@@ -6,6 +6,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class AnimalRepository {
@@ -17,7 +19,16 @@ public class AnimalRepository {
         return em.createQuery("SELECT a FROM AnimalEntity a", AnimalEntity.class).getResultList();
     }
 
-    public AnimalEntity merge(AnimalEntity entity) {
+    public AnimalEntity findById(UUID id) {
+        return em.find(AnimalEntity.class, id);
+    }
+
+    public AnimalEntity edit(AnimalEntity entity) {
         return em.merge(entity);
+    }
+
+    public Optional<AnimalEntity> findByUuid(UUID uuid) {
+        AnimalEntity animalEntity = em.find(AnimalEntity.class, uuid);
+        return Optional.ofNullable(animalEntity);
     }
 }
