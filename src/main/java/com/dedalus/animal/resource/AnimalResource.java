@@ -24,12 +24,6 @@ public class AnimalResource {
     @Inject
     AnimalService animalService;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AnimalDto> listAll() {
-        return animalService.findAll();
-    }
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
