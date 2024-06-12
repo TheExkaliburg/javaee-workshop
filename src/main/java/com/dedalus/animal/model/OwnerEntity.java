@@ -2,7 +2,6 @@ package com.dedalus.animal.model;
 
 import java.util.UUID;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -26,7 +25,6 @@ import lombok.ToString;
 public class OwnerEntity {
 
     @Id
-    @GeneratedValue
     @EqualsAndHashCode.Include
     private UUID uuid;
 

@@ -17,8 +17,6 @@ import java.util.UUID;
 public class AnimalEntity {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "uuid")
     @EqualsAndHashCode.Include
     private UUID uuid;
 
