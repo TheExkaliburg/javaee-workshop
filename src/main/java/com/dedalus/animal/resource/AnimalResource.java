@@ -6,6 +6,7 @@ import com.dedalus.animal.service.AnimalService;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,7 +22,7 @@ public class AnimalResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public AnimalDetailedDto post(AnimalDetailedDto request) {
+    public AnimalDetailedDto post(@Valid AnimalDetailedDto request) {
         return animalService.createOrUpdate(request);
     }
 
@@ -30,8 +31,15 @@ public class AnimalResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Transactional
-    public AnimalDetailedDto adopt(@QueryParam("animal") UUID animalId, OwnerDto owner) {
-        return animalService.adopt(animalId, owner);
+    public Response adopt(@QueryParam("animal") UUID animalId, OwnerDto owner) {
+//        try {
+            var adoptedAnimal = animalService.adopt(animalId, owner);
+            return Response.ok(adoptedAnimal).build();
+//        } catch (IllegalArgumentException e) {
+//            return Response.status(400).build();
+//        } catch (NotFoundException e) {
+//            return Response.status(404).build();
+//        }
     }
 
     @GET
@@ -41,6 +49,10 @@ public class AnimalResource {
             return Response.ok(animalService.findAll()).build();
         }
 
-        return Response.ok(animalService.findByUuid(uuid)).build();
+//        try {
+            return Response.ok(animalService.findByUuid(uuid)).build();
+//        } catch (NotFoundException e) {
+//            return Response.status(404).build();
+//        }
     }
 }

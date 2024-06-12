@@ -1,17 +1,17 @@
 package com.dedalus.animal.service;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
+
 import com.dedalus.animal.model.AnimalDetailedDto;
 import com.dedalus.animal.model.AnimalDto;
 import com.dedalus.animal.model.AnimalEntity;
 import com.dedalus.animal.model.OwnerDto;
 import com.dedalus.animal.persistence.AnimalRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.NotFoundException;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class AnimalService {
@@ -31,9 +31,13 @@ public class AnimalService {
                 .collect(Collectors.toList());
     }
 
-    public AnimalDetailedDto adopt(UUID animalDto, OwnerDto owner) {
+    public AnimalDetailedDto adopt(UUID animalDto, OwnerDto owner) throws IllegalArgumentException {
         AnimalEntity entity = repository.findByIdOptional(animalDto).orElseThrow(NotFoundException::new);
+        if (entity.getAvailable() != null && !entity.getAvailable()) {
+            throw new IllegalArgumentException();
+        }
         entity.setOwner(owner.getUuid());
+        entity.setAvailable(false);
         repository.merge(entity);
         return mapDetail(entity);
     }
