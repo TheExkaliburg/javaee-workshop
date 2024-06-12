@@ -23,12 +23,12 @@ public class AnimalRepository {
         return em.find(AnimalEntity.class, id);
     }
 
-    public AnimalEntity edit(AnimalEntity entity) {
-        return em.merge(entity);
-    }
-
     public Optional<AnimalEntity> findByUuid(UUID uuid) {
         AnimalEntity animalEntity = em.find(AnimalEntity.class, uuid);
         return Optional.ofNullable(animalEntity);
+    }
+
+    public AnimalEntity merge(AnimalEntity entity) {
+        return em.merge(entity);
     }
 }

@@ -1,7 +1,6 @@
 package com.dedalus.animal.resource;
 
 import com.dedalus.animal.model.AnimalDetailedDto;
-import com.dedalus.animal.model.AnimalDto;
 import com.dedalus.animal.model.OwnerDto;
 import com.dedalus.animal.service.AnimalService;
 
@@ -15,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 import java.util.UUID;
 
 @Path("animal")
@@ -28,7 +26,7 @@ public class AnimalResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public AnimalDetailedDto insert(AnimalDetailedDto request) {
+    public AnimalDetailedDto post(AnimalDetailedDto request) {
         return animalService.createOrUpdate(request);
     }
 

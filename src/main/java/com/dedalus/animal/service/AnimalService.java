@@ -34,18 +34,8 @@ public class AnimalService {
     public AnimalDetailedDto adopt(UUID animalDto, OwnerDto owner) {
         AnimalEntity entity = repository.findById(animalDto);
         entity.setOwner(owner.getUuid());
-        repository.edit(entity);
-        return toDetailedDto(entity);
-    }
-
-    public AnimalDetailedDto toDetailedDto(AnimalEntity entity) {
-        return AnimalDetailedDto.builder()
-                .name(entity.getName())
-                .type(entity.getType())
-                .uuid(entity.getUuid())
-                .owner(entity.getOwner())
-                .comment(entity.getComment())
-                .build();
+        repository.merge(entity);
+        return mapDetail(entity);
     }
 
     public AnimalDetailedDto findByUuid(UUID uuid) {
@@ -61,7 +51,7 @@ public class AnimalService {
     }
 
     public AnimalDetailedDto createOrUpdate(AnimalDetailedDto dto) {
-        AnimalEntity entity = repository.edit(mapDetail(dto));
+        AnimalEntity entity = repository.merge(mapDetail(dto));
         return mapDetail(entity);
     }
 
@@ -84,6 +74,5 @@ public class AnimalService {
             .comment(dto.getComment())
             .build();
     }
-
-
+    
 }
