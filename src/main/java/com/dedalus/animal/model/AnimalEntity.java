@@ -20,10 +20,15 @@ public class AnimalEntity {
     @EqualsAndHashCode.Include
     private UUID uuid;
 
+    @ManyToOne
+    private OwnerEntity owner;
+
     private String name;
+
     @Enumerated(EnumType.STRING)
     private SpeciesType type;
+
     private String comment;
+
     private Boolean available;
-    private UUID owner;
 }

@@ -4,6 +4,9 @@
 -- insert into myentity (id, field) values(nextval('hibernate_sequence'), 'field-2');
 -- insert into myentity (id, field) values(nextval('hibernate_sequence'), 'field-3');
 
+INSERT INTO OWNER (uuid, name, address) values ('3c97534f-7789-4a5a-be56-dae85a76d451', 'Miriam Muster',' "Saarstraße 2a"');
+INSERT INTO OWNER (uuid, name, address) values ('8e27c903-5fa1-496a-8eb3-756561905efe', 'Max Muster',' "Saarstraße 2a"');
+
 INSERT INTO ANIMAL (uuid, name, type, comment, available, owner)
 values ('a63eccb7-5450-4bad-8516-9015b6300e8d', 'Rupert', 'WALRUS', 'Where the hell did he even come from?', true,
         null);

@@ -1,11 +1,13 @@
 package com.dedalus.animal.resource;
 
-import com.dedalus.animal.model.AnimalDetailedDto;
-import com.dedalus.animal.model.OwnerDto;
+import com.dedalus.animal.model.AdoptRequest;
+import com.dedalus.animal.model.AnimalRequest;
+import com.dedalus.animal.model.AnimalResponse;
 import com.dedalus.animal.service.AnimalService;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,7 +31,6 @@ public class AnimalResource {
         if (uuid == null) {
             return Response.ok(animalService.findAll()).build();
         }
-
         return Response.ok(animalService.findByUuid(uuid)).build();
     }
 
@@ -38,15 +39,15 @@ public class AnimalResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Transactional
-    public AnimalDetailedDto adopt(@QueryParam("animal") UUID animalId, OwnerDto owner) {
-        return animalService.adopt(animalId, owner);
+    public AnimalResponse adopt(@Valid AdoptRequest request) {
+        return animalService.adopt(request.getAnimalId(), request.getOwnerId());
     }
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public AnimalDetailedDto put(AnimalDetailedDto request) {
+    public AnimalResponse put(@Valid AnimalRequest request) {
         return animalService.createOrUpdate(request);
     }
 }

@@ -1,8 +1,11 @@
 package com.dedalus.animal.model;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -30,4 +33,7 @@ public class OwnerEntity {
 
     private String name;
     private String address;
+
+    @OneToMany(mappedBy="owner")
+    private Set<AnimalEntity> animals = new HashSet<>();
 }

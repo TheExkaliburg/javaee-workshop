@@ -1,21 +1,18 @@
 package com.dedalus.animal.model;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AnimalDetailedDto {
+public class OwnerResponse {
     private UUID uuid;
     private String name;
-    private SpeciesType type;
-    private String comment;
-    private Boolean available;
-    private UUID owner;
+    private String address;
 }
