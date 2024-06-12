@@ -1,4 +1,4 @@
-package com.dedalus.animal.resource;
+package com.dedalus.animal.boundary;
 
 import com.dedalus.animal.model.request.AnimalAdoptionRequest;
 import com.dedalus.animal.model.request.AnimalCreationRequest;
@@ -7,6 +7,7 @@ import com.dedalus.animal.service.AnimalService;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,7 +23,7 @@ public class AnimalResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public AnimalDetailsResponse post(AnimalCreationRequest request) {
+    public AnimalDetailsResponse post(@Valid AnimalCreationRequest request) {
         return animalService.createOrUpdate(request);
     }
 
@@ -31,7 +32,7 @@ public class AnimalResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Transactional
-    public AnimalDetailsResponse adopt(AnimalAdoptionRequest request) {
+    public AnimalDetailsResponse adopt(@Valid AnimalAdoptionRequest request) {
         return animalService.adopt(request);
     }
 
