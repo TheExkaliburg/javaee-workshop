@@ -20,7 +20,7 @@ public class AnimalService {
     AnimalRepository repository;
 
     public List<AnimalDto> findAll() {
-        List<AnimalEntity> list = repository.findAll();
+        List<AnimalEntity> list = repository.listAll();
         return list.stream()
                 .map(a -> AnimalDto.builder()
                         .name(a.getName())
@@ -32,22 +32,16 @@ public class AnimalService {
     }
 
     public AnimalDetailedDto adopt(UUID animalDto, OwnerDto owner) {
-        AnimalEntity entity = repository.findById(animalDto);
+        AnimalEntity entity = repository.findByIdOptional(animalDto).orElseThrow(NotFoundException::new);
         entity.setOwner(owner.getUuid());
         repository.merge(entity);
         return mapDetail(entity);
     }
 
     public AnimalDetailedDto findByUuid(UUID uuid) {
-        AnimalEntity result = repository.findByUuid(uuid).orElseThrow(NotFoundException::new);
+        AnimalEntity result = repository.findByIdOptional(uuid).orElseThrow(NotFoundException::new);
 
-        return AnimalDetailedDto.builder()
-                .name(result.getName())
-                .uuid(result.getUuid())
-                .type(result.getType())
-                .available(result.getAvailable())
-                .comment(result.getComment())
-                .build();
+        return mapDetail(result);
     }
 
     public AnimalDetailedDto createOrUpdate(AnimalDetailedDto dto) {
