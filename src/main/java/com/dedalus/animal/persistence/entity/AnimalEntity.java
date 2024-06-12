@@ -1,5 +1,6 @@
-package com.dedalus.animal.model;
+package com.dedalus.animal.persistence.entity;
 
+import com.dedalus.animal.model.SpeciesType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,11 +22,15 @@ public class AnimalEntity {
     @Column(columnDefinition = "uuid")
     @EqualsAndHashCode.Include
     private UUID uuid;
-
+    @NonNull
     private String name;
+    @NonNull
     @Enumerated(EnumType.STRING)
     private SpeciesType type;
     private String comment;
-    private Boolean available;
-    private UUID owner;
+    private String owner;
+
+    public boolean isAvailable() {
+        return owner == null;
+    }
 }
