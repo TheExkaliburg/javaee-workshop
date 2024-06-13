@@ -4,6 +4,7 @@ import com.dedalus.animal.model.AnimalRequest;
 import com.dedalus.animal.model.AnimalResponse;
 import com.dedalus.animal.model.AnimalSearchResults;
 import com.dedalus.animal.model.AnimalEntity;
+import com.dedalus.animal.model.ApiNinjaAnimalResponse;
 import com.dedalus.animal.model.OwnerEntity;
 import com.dedalus.animal.persistence.AnimalRepository;
 import com.dedalus.animal.persistence.OwnerRepository;
@@ -73,14 +74,14 @@ public class AnimalService {
 
     @Retry(maxRetries = 1)
     @Fallback(fallbackMethod = "getFromApiNinjaFallback")
-    public Object getFromApiNinja(String name) {
+    public List<ApiNinjaAnimalResponse> getFromApiNinja(String name) {
         if (apiKey == null || apiKey.isEmpty()) {
             throw new RuntimeException("Api Ninja API Key not set");
         }
         return apiNinjaRestClient.getAnimals(name, apiKey);
     }
 
-    private Object getFromApiNinjaFallback(String name) {
+    private List<ApiNinjaAnimalResponse> getFromApiNinjaFallback(String name) {
         log.warn("getFromApiNinjaFallback executed");
         return Collections.emptyList();
     }
