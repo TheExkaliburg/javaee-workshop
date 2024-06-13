@@ -65,7 +65,10 @@ public class AnimalResource {
     @Path("remote")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findRemote(@QueryParam("name") String name) {
+    public Response findRemote(@QueryParam("name") String name, @QueryParam("invalidatecache") Boolean invalidatecache) {
+        if (invalidatecache != null && invalidatecache) {
+            restClientService.invalidateCache();
+        }
         List<RemoteAnimal> result = restClientService.callGetAnimals(name);
         return Response.ok(result).build();
     }
