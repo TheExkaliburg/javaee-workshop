@@ -1,6 +1,8 @@
 package com.dedalus.animal.resource;
 
+import com.dedalus.animal.profiles.ApiNinjaMockProfile;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +13,11 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 
 @QuarkusTest
+@TestProfile(ApiNinjaMockProfile.class)
 public class AnimalResourceTest {
 
     private static final String BASE_PATH = "/animal";
@@ -92,7 +96,6 @@ public class AnimalResourceTest {
     }
 
     @Test
-    // TODO: mock ninja rest api using profiles
     public void testGetNinja() {
         given()
             .when()
@@ -101,8 +104,18 @@ public class AnimalResourceTest {
             .get(BASE_PATH + "/ninja")
             .then()
             .statusCode(200)
-            .body("name", hasSize(1))
-            .body("name", hasItem("Cheetah"));
+            .body("name", hasSize(2))
+            .body("name", hasItems("Kitty", "Waldi"));
+    }
+
+    @Test
+    public void testGetNinjaMissingParams() {
+        given()
+            .when()
+            .contentType(ContentType.JSON)
+            .get(BASE_PATH + "/ninja")
+            .then()
+            .statusCode(400);
     }
 
 }
