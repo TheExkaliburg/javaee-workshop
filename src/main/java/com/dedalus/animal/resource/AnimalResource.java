@@ -8,6 +8,7 @@ import com.dedalus.animal.service.AnimalService;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -50,7 +51,7 @@ public class AnimalResource {
 
     @GET
     @Path("ninja")
-    public Response getFromApiNinja(@QueryParam("name") String name) {
+    public Response getFromApiNinja(@NotNull @QueryParam("name") String name) {
         return Response.ok(animalService.getFromApiNinja(name)).build();
     }
 }

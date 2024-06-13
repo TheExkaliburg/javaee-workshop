@@ -1,9 +1,3 @@
--- This file allow to write SQL commands that will be emitted in test and dev.
--- The commands are commented as their support depends of the database
--- insert into myentity (id, field) values(nextval('hibernate_sequence'), 'field-1');
--- insert into myentity (id, field) values(nextval('hibernate_sequence'), 'field-2');
--- insert into myentity (id, field) values(nextval('hibernate_sequence'), 'field-3');
-
 INSERT INTO owner (uuid, name, address) values ('3c97534f-7789-4a5a-be56-dae85a76d451', 'Miriam Muster',' "Saarstraße 2a"');
 INSERT INTO owner (uuid, name, address) values ('8e27c903-5fa1-496a-8eb3-756561905efe', 'Max Muster',' "Saarstraße 2a"');
 

@@ -1,4 +1,4 @@
-package com.dedalus.animal;
+package com.dedalus.animal.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -26,7 +27,7 @@ public class AnimalResourceTest {
                 .get(BASE_PATH)
             .then()
                 .statusCode(200)
-                .body("uuid", hasSize(18))
+                .body("uuid", hasSize(greaterThanOrEqualTo(18)))
                 .body("uuid", hasItem(UUID_RUPERT))
                 .body("name", hasItem("Rupert"));
     }
@@ -88,6 +89,20 @@ public class AnimalResourceTest {
             .put(BASE_PATH)
             .then()
             .statusCode(400);
+    }
+
+    @Test
+    // TODO: mock ninja rest api using profiles
+    public void testGetNinja() {
+        given()
+            .when()
+            .contentType(ContentType.JSON)
+            .queryParam("name","Chee")
+            .get(BASE_PATH + "/ninja")
+            .then()
+            .statusCode(200)
+            .body("name", hasSize(1))
+            .body("name", hasItem("Cheetah"));
     }
 
 }

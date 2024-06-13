@@ -71,7 +71,6 @@ public class AnimalService {
         AnimalEntity entity = animalRepository.merge(AnimalMapper.INSTANCE.mapFromRequest(request));
         return AnimalMapper.INSTANCE.mapToResponse(entity);
     }
-
     @Retry(maxRetries = 1)
     @Fallback(fallbackMethod = "getFromApiNinjaFallback")
     public List<ApiNinjaAnimalResponse> getFromApiNinja(String name) {
