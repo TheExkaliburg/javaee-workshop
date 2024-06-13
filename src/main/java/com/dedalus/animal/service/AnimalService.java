@@ -5,8 +5,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.NotFoundException;
 
+import com.dedalus.animal.exceptionmapper.AnimalNotAvailableException;
+import com.dedalus.animal.exceptionmapper.AnimalNotFoundException;
 import com.dedalus.animal.model.AnimalDetailedDto;
 import com.dedalus.animal.model.AnimalDto;
 import com.dedalus.animal.model.AnimalEntity;
@@ -32,9 +33,9 @@ public class AnimalService {
     }
 
     public AnimalDetailedDto adopt(UUID animalDto, OwnerDto owner) throws IllegalArgumentException {
-        AnimalEntity entity = repository.findByIdOptional(animalDto).orElseThrow(NotFoundException::new);
+        AnimalEntity entity = repository.findByIdOptional(animalDto).orElseThrow(AnimalNotFoundException::new);
         if (entity.getAvailable() != null && !entity.getAvailable()) {
-            throw new IllegalArgumentException();
+            throw new AnimalNotAvailableException();
         }
         entity.setOwner(owner.getUuid());
         entity.setAvailable(false);
@@ -43,7 +44,7 @@ public class AnimalService {
     }
 
     public AnimalDetailedDto findByUuid(UUID uuid) {
-        AnimalEntity result = repository.findByIdOptional(uuid).orElseThrow(NotFoundException::new);
+        AnimalEntity result = repository.findByIdOptional(uuid).orElseThrow(AnimalNotFoundException::new);
 
         return mapDetail(result);
     }
