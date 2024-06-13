@@ -1,6 +1,7 @@
 package com.dedalus.ninja.client;
 
 import com.dedalus.ninja.model.NinjaAnimalResponse;
+import io.quarkus.cache.CacheResult;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -15,6 +16,7 @@ public class ApiNinjaService {
     ApiNinjaRestClient restClient;
     private static final String API_KEY = "";
 
+    @CacheResult(cacheName = "animalApiCache")
     @Fallback(fallbackMethod = "getAnimalsFallback")
     public List<NinjaAnimalResponse> getAnimals(String name) {
         return restClient.getAnimals(name, API_KEY);
@@ -24,7 +26,7 @@ public class ApiNinjaService {
         return restClient.getCountries(limit, API_KEY);
     }
 
-    private List<NinjaAnimalResponse> getAnimalsFallback(String name) {
+    protected List<NinjaAnimalResponse> getAnimalsFallback(String s) {
         return List.of();
     }
 }

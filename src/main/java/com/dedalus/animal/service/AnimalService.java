@@ -4,7 +4,7 @@ import com.dedalus.animal.exceptions.AlreadyAdoptedException;
 import com.dedalus.animal.exceptions.AnimalNotFoundException;
 import com.dedalus.animal.model.request.AnimalAdoptionRequest;
 import com.dedalus.animal.model.request.AnimalCreationRequest;
-import com.dedalus.animal.model.response.AnimalDetailsResponse;
+import com.dedalus.animal.model.response.AnimalDetailedResponse;
 import com.dedalus.animal.model.response.AnimalListResponse;
 import com.dedalus.animal.persistence.AnimalRepository;
 import com.dedalus.animal.persistence.entity.AnimalEntity;
@@ -28,7 +28,7 @@ public class AnimalService {
         return animalMapper.mapToResponse(repository.listAll());
     }
 
-    public AnimalDetailsResponse adopt(AnimalAdoptionRequest request) {
+    public AnimalDetailedResponse adopt(AnimalAdoptionRequest request) {
         AnimalEntity entity = repository.findByIdOptional(request.getAnimalUuid())
                 .orElseThrow(() -> new AnimalNotFoundException("Animal with " + request.getAnimalUuid() + " was not found"));
 
@@ -38,21 +38,21 @@ public class AnimalService {
 
         entity.setOwner(request.getName());
         repository.save(entity);
-        return animalMapper.mapToDetailsResponse(entity);
+        return animalMapper.mapToDetailedResponse(entity);
     }
 
-    public AnimalDetailsResponse findByUuid(UUID uuid) {
+    public AnimalDetailedResponse findByUuid(UUID uuid) {
         AnimalEntity result = repository.findByIdOptional(uuid)
                 .orElseThrow(() -> new AnimalNotFoundException("Animal with " + uuid + " was not found"));
-        return animalMapper.mapToDetailsResponse(result);
+        return animalMapper.mapToDetailedResponse(result);
     }
 
-    public AnimalDetailsResponse create(AnimalCreationRequest request) {
+    public AnimalDetailedResponse create(AnimalCreationRequest request) {
         /*SpeciesEntity species = speciesService.findByName(request.getSpecies())
                 .orElseGet(() -> speciesService.create(request.getSpecies()));
 */
         AnimalEntity entity = repository.save(animalMapper.mapFromCreationRequest(request));
-        return animalMapper.mapToDetailsResponse(entity);
+        return animalMapper.mapToDetailedResponse(entity);
     }
     
 }

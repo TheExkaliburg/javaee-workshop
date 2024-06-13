@@ -1,7 +1,7 @@
 package com.dedalus.animal.service.mapper;
 
 import com.dedalus.animal.model.request.AnimalCreationRequest;
-import com.dedalus.animal.model.response.AnimalDetailsResponse;
+import com.dedalus.animal.model.response.AnimalDetailedResponse;
 import com.dedalus.animal.model.response.AnimalListResponse;
 import com.dedalus.animal.persistence.entity.AnimalEntity;
 import org.mapstruct.Mapper;
@@ -19,8 +19,8 @@ public abstract class AnimalMapper {
         return builder.build();
     }
 
-    @Mapping(target = "species", source = "entity.speciesUuid", qualifiedByName = "uuidToSpeciesName")
-    public abstract AnimalDetailsResponse mapToDetailsResponse(AnimalEntity entity);
+    @Mapping(target = "species", source = "entity.speciesUuid", qualifiedByName = "uuidToSpeciesDto")
+    public abstract AnimalDetailedResponse mapToDetailedResponse(AnimalEntity entity);
 
 
     @Mapping(target = "species", source = "entity.speciesUuid", qualifiedByName = "uuidToSpeciesName")

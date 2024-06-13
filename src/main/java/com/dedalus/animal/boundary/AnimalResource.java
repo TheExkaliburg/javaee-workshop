@@ -2,7 +2,7 @@ package com.dedalus.animal.boundary;
 
 import com.dedalus.animal.model.request.AnimalAdoptionRequest;
 import com.dedalus.animal.model.request.AnimalCreationRequest;
-import com.dedalus.animal.model.response.AnimalDetailsResponse;
+import com.dedalus.animal.model.response.AnimalDetailedResponse;
 import com.dedalus.animal.service.AnimalService;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -35,7 +35,7 @@ public class AnimalResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public AnimalDetailsResponse create(@Valid AnimalCreationRequest request) {
+    public AnimalDetailedResponse create(@Valid AnimalCreationRequest request) {
         return animalService.create(request);
     }
 

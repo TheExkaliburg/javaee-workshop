@@ -7,10 +7,10 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class AnimalDetailsResponse {
+public class AnimalDetailedResponse {
     private UUID uuid;
     private String name;
-    private String species;
+    private SpeciesDto species;
     private String comment;
     private Boolean available;
 }
