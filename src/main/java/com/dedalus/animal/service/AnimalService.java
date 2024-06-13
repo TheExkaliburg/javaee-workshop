@@ -11,8 +11,10 @@ import com.dedalus.animal.service.mapper.AnimalMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,11 +35,16 @@ public class AnimalService {
     }
 
     public AnimalResponse adopt(UUID animalId, UUID ownerId) {
-        AnimalEntity entity = animalRepository.findByIdOptional(animalId).orElseThrow(NotFoundException::new);
-        OwnerEntity owner = ownerRepository.findByIdOptional(ownerId).orElseThrow(NotFoundException::new);
-        entity.setOwner(owner);
-        animalRepository.merge(entity);
-        return AnimalMapper.INSTANCE.mapToResponse(entity);
+        Optional<AnimalEntity> animal = animalRepository.findByIdOptional(animalId);
+        Optional<OwnerEntity> owner = ownerRepository.findByIdOptional(ownerId);
+
+        if (animal.isEmpty() || owner.isEmpty()) {
+            throw new BadRequestException("ERROR.OWNER_OR_ANIMAL_NOT_FOUND");
+        }
+
+        animal.get().setOwner(owner.get());
+        animalRepository.merge(animal.get());
+        return AnimalMapper.INSTANCE.mapToResponse(animal.get());
     }
 
     public AnimalResponse findByUuid(UUID uuid) {

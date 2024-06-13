@@ -1,4 +1,4 @@
-package com.dedalus.model;
+package com.dedalus.greeting.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

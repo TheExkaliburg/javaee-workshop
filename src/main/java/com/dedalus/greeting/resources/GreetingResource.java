@@ -1,7 +1,7 @@
-package com.dedalus.resources;
+package com.dedalus.greeting.resources;
 
-import com.dedalus.model.GreetingEntity;
-import com.dedalus.persistence.GreetingRepository;
+import com.dedalus.greeting.persistence.GreetingRepository;
+import com.dedalus.greeting.model.GreetingEntity;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;

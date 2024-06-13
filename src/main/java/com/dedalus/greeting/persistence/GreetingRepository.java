@@ -1,6 +1,6 @@
-package com.dedalus.persistence;
+package com.dedalus.greeting.persistence;
 
-import com.dedalus.model.GreetingEntity;
+import com.dedalus.greeting.model.GreetingEntity;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
