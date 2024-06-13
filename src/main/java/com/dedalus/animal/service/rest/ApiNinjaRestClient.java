@@ -20,7 +20,6 @@ public interface ApiNinjaRestClient {
     @Path("animals")
     @CacheResult(cacheName = "animal-cache")
     List<ApiNinjaAnimalResponse> getAnimals(@QueryParam("name") @CacheKey String name,
-                                            @HeaderParam("X-Api-Key") String apiKey
-    );
+                                            @HeaderParam("X-Api-Key") String apiKey);
 
 }
