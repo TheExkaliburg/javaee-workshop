@@ -20,13 +20,14 @@ import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 @Path("animal")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class AnimalResource {
 
     @Inject
     AnimalService animalService;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response find(@QueryParam(value = "uuid") UUID uuid) {
         if (uuid == null) {
             return Response.ok(animalService.findAll()).build();
@@ -36,18 +37,20 @@ public class AnimalResource {
 
     @Path("adopt")
     @POST
-    @Produces("application/json")
-    @Consumes("application/json")
     @Transactional
     public AnimalResponse adopt(@Valid AdoptRequest request) {
         return animalService.adopt(request.getAnimalId(), request.getOwnerId());
     }
 
     @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public AnimalResponse put(@Valid AnimalRequest request) {
         return animalService.createOrUpdate(request);
+    }
+
+    @GET
+    @Path("ninja")
+    public Response getFromApiNinja(@QueryParam("name") String name) {
+        return Response.ok(animalService.getFromApiNinja(name)).build();
     }
 }

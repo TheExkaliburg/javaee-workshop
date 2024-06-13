@@ -8,17 +8,25 @@ import com.dedalus.animal.model.OwnerEntity;
 import com.dedalus.animal.persistence.AnimalRepository;
 import com.dedalus.animal.persistence.OwnerRepository;
 import com.dedalus.animal.service.mapper.AnimalMapper;
+import com.dedalus.animal.service.rest.ApiNinjaRestClient;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
+@Slf4j
 public class AnimalService {
 
     @Inject
@@ -26,6 +34,12 @@ public class AnimalService {
 
     @Inject
     OwnerRepository ownerRepository;
+
+    @Inject @RestClient
+    ApiNinjaRestClient apiNinjaRestClient;
+
+    @ConfigProperty(name = "NINJA_API_KEY")
+    String apiKey;
 
     public List<AnimalSearchResults> findAll() {
         List<AnimalEntity> list = animalRepository.listAll();
@@ -54,8 +68,21 @@ public class AnimalService {
 
     public AnimalResponse createOrUpdate(AnimalRequest request) {
         AnimalEntity entity = animalRepository.merge(AnimalMapper.INSTANCE.mapFromRequest(request));
-        AnimalResponse response = AnimalMapper.INSTANCE.mapToResponse(entity);
-        return response;
+        return AnimalMapper.INSTANCE.mapToResponse(entity);
+    }
+
+    @Retry(maxRetries = 1)
+    @Fallback(fallbackMethod = "getFromApiNinjaFallback")
+    public Object getFromApiNinja(String name) {
+        if (apiKey == null || apiKey.isEmpty()) {
+            throw new RuntimeException("Api Ninja API Key not set");
+        }
+        return apiNinjaRestClient.getAnimals(name, apiKey);
+    }
+
+    private Object getFromApiNinjaFallback(String name) {
+        log.warn("getFromApiNinjaFallback executed");
+        return Collections.emptyList();
     }
 
 }
