@@ -2,6 +2,8 @@ package com.dedalus.animal.resource;
 
 import com.dedalus.animal.model.AnimalDetailedDto;
 import com.dedalus.animal.model.OwnerDto;
+import com.dedalus.animal.restclient.RemoteAnimal;
+import com.dedalus.animal.restclient.RestClientService;
 import com.dedalus.animal.service.AnimalService;
 
 import javax.inject.Inject;
@@ -10,6 +12,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.UUID;
 
 @Path("animal")
@@ -17,6 +20,9 @@ public class AnimalResource {
 
     @Inject
     AnimalService animalService;
+
+    @Inject
+    RestClientService restClientService;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,5 +60,13 @@ public class AnimalResource {
 //        } catch (NotFoundException e) {
 //            return Response.status(404).build();
 //        }
+    }
+
+    @Path("remote")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findRemote(@QueryParam("name") String name) {
+        List<RemoteAnimal> result = restClientService.callGetAnimals(name);
+        return Response.ok(result).build();
     }
 }
