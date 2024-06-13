@@ -9,7 +9,7 @@ public class FallbackExceptionMapper implements ExceptionMapper<RuntimeException
     @Override
     public Response toResponse(RuntimeException e) {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new RuntimeExceptionResponse(e))
+                .entity(new ResponseEntity(e))
                 .build();
     }
 }

@@ -1,6 +1,5 @@
 package com.dedalus.animal.model.request;
 
-import com.dedalus.animal.model.SpeciesType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,7 @@ public class AnimalCreationRequest {
     @Size(min = 3, max = 128, message = "Name must be between 3 and 128 characters")
     private String name;
     @NotNull
-    private SpeciesType type;
-    @Size(min = 100, message = "Name must be between 1 and 100 characters")
-    private String comment;
+    private String species;
+    @Builder.Default
+    private String comment = "";
 }

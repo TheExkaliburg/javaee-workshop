@@ -1,11 +1,8 @@
 package com.dedalus.core.exceptions;
 
-import lombok.Data;
 import lombok.Getter;
 
 import javax.ws.rs.core.Response;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 @Getter
 public class DedalusHttpException extends RuntimeException {
@@ -47,19 +44,5 @@ public class DedalusHttpException extends RuntimeException {
         return Response.status(httpStatus)
                 .entity(new ResponseEntity(this))
                 .build();
-    }
-
-    @Data
-    public static class ResponseEntity {
-        private String message;
-        private String stackTrace;
-
-        public ResponseEntity(Throwable e) {
-            message = e.getMessage();
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            stackTrace = sw.toString();
-        }
     }
 }

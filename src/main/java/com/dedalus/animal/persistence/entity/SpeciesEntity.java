@@ -13,8 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "ANIMAL")
-public class AnimalEntity {
+@Table(name = "SPECIES")
+public class SpeciesEntity {
 
     @Id
     @GeneratedValue
@@ -23,13 +23,4 @@ public class AnimalEntity {
     private UUID uuid;
     @NonNull
     private String name;
-    @NonNull
-    @Column(columnDefinition = "uuid")
-    private UUID speciesUuid;
-    private String comment;
-    private String owner;
-
-    public boolean isAvailable() {
-        return owner == null;
-    }
 }

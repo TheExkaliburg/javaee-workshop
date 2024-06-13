@@ -2,13 +2,13 @@ package com.dedalus.animal.service;
 
 import com.dedalus.animal.exceptions.AlreadyAdoptedException;
 import com.dedalus.animal.exceptions.AnimalNotFoundException;
-import com.dedalus.animal.mapper.AnimalMapper;
 import com.dedalus.animal.model.request.AnimalAdoptionRequest;
 import com.dedalus.animal.model.request.AnimalCreationRequest;
 import com.dedalus.animal.model.response.AnimalDetailsResponse;
-import com.dedalus.animal.model.response.AnimalOverviewResponse;
+import com.dedalus.animal.model.response.AnimalListResponse;
 import com.dedalus.animal.persistence.AnimalRepository;
 import com.dedalus.animal.persistence.entity.AnimalEntity;
+import com.dedalus.animal.service.mapper.AnimalMapper;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,10 +18,14 @@ import java.util.UUID;
 public class AnimalService {
 
     @Inject
+    SpeciesService speciesService;
+    @Inject
     AnimalRepository repository;
+    @Inject
+    AnimalMapper animalMapper;
 
-    public AnimalOverviewResponse findOverview() {
-        return AnimalMapper.INSTANCE.mapToResponse(repository.listAll());
+    public AnimalListResponse findOverview() {
+        return animalMapper.mapToResponse(repository.listAll());
     }
 
     public AnimalDetailsResponse adopt(AnimalAdoptionRequest request) {
@@ -34,18 +38,21 @@ public class AnimalService {
 
         entity.setOwner(request.getName());
         repository.save(entity);
-        return AnimalMapper.INSTANCE.mapToDetailsResponse(entity);
+        return animalMapper.mapToDetailsResponse(entity);
     }
 
     public AnimalDetailsResponse findByUuid(UUID uuid) {
         AnimalEntity result = repository.findByIdOptional(uuid)
                 .orElseThrow(() -> new AnimalNotFoundException("Animal with " + uuid + " was not found"));
-        return AnimalMapper.INSTANCE.mapToDetailsResponse(result);
+        return animalMapper.mapToDetailsResponse(result);
     }
 
-    public AnimalDetailsResponse createOrUpdate(AnimalCreationRequest request) {
-        AnimalEntity entity = repository.save(AnimalMapper.INSTANCE.mapFromCreationRequest(request));
-        return AnimalMapper.INSTANCE.mapToDetailsResponse(entity);
+    public AnimalDetailsResponse create(AnimalCreationRequest request) {
+        /*SpeciesEntity species = speciesService.findByName(request.getSpecies())
+                .orElseGet(() -> speciesService.create(request.getSpecies()));
+*/
+        AnimalEntity entity = repository.save(animalMapper.mapFromCreationRequest(request));
+        return animalMapper.mapToDetailsResponse(entity);
     }
     
 }
