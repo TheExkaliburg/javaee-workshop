@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class ApiNinjaMockProfile implements QuarkusTestProfile {
+public class DefaultProfile implements QuarkusTestProfile {
 
     @Override
     public Map<String, String> getConfigOverrides() {

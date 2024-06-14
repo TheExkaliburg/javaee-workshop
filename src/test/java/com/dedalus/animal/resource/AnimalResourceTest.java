@@ -1,6 +1,6 @@
 package com.dedalus.animal.resource;
 
-import com.dedalus.animal.profiles.ApiNinjaMockProfile;
+import com.dedalus.animal.profiles.DefaultProfile;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import io.restassured.http.ContentType;
@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 
 @QuarkusTest
-@TestProfile(ApiNinjaMockProfile.class)
+@TestProfile(DefaultProfile.class)
 public class AnimalResourceTest {
 
     private static final String BASE_PATH = "/animal";
