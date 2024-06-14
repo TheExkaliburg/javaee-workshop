@@ -36,7 +36,8 @@ public class AnimalService {
     @Inject
     OwnerRepository ownerRepository;
 
-    @Inject @RestClient
+    @Inject
+    @RestClient
     ApiNinjaRestClient apiNinjaRestClient;
 
     @ConfigProperty(name = "NINJA_API_KEY")

@@ -29,7 +29,7 @@ public class AnimalResource {
     AnimalService animalService;
 
     @GET
-    public Response find(@QueryParam(value = "uuid") UUID uuid) {
+    public Response list(@QueryParam(value = "uuid") UUID uuid) {
         if (uuid == null) {
             return Response.ok(animalService.findAll()).build();
         }
